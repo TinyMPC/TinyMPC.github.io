@@ -1,0 +1,26 @@
+/* // Primary color shades
+--md-primary-fg-color:               hsla(#{hex2hsl($clr-indigo-500)}, 1);
+--md-primary-fg-color--light:        hsla(#{hex2hsl($clr-indigo-400)}, 1);
+--md-primary-fg-color--dark:         hsla(#{hex2hsl($clr-indigo-700)}, 1);
+--md-primary-bg-color:               hsla(0, 0%, 100%, 1);
+--md-primary-bg-color--light:        hsla(0, 0%, 100%, 0.7);
+
+// Accent color shades
+--md-accent-fg-color:                hsla(#{hex2hsl($clr-indigo-a200)}, 1);
+--md-accent-fg-color--transparent:   hsla(#{hex2hsl($clr-indigo-a200)}, 0.1);
+--md-accent-bg-color:                hsla(0, 0%, 100%, 1);
+--md-accent-bg-color--light:         hsla(0, 0%, 100%, 0.7); */
+
+[data-md-color-scheme="tinympc-default"] {
+    --md-primary-fg-color:        #7b87eb;
+    --md-primary-fg-color--light: #f8f4fe;
+    --md-primary-fg-color--dark:  #1b1c23;
+}
+
+[data-md-color-scheme="tinympc-slate"] {
+    --md-primary-fg-color:        #e97beb;
+    --md-primary-fg-color--light: #f4f6fe;
+    --md-primary-fg-color--dark:  #7a5632;
+    --md-primary-bg-color:        rgb(121, 22, 22);
+}
+

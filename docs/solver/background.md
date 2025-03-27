@@ -62,7 +62,114 @@ where $x^+$, $z^+$, and $\lambda^+$ refer to the primal, slack, and dual variabl
 
 Now all we have to do is solve a few unconstrained optimization problems!
 
-## TODO: primal and slack update and discrete algebraic riccati equation
+<!-- ## TODO: primal and slack update and discrete algebraic riccati equation -->
+---
+
+## Primal and slack update
+
+The primal update in TinyMPC takes advantage of the special structure of Model Predictive Control (MPC) problems. The optimization problem can be written as:
+
+$$
+\min_{x_{1:N}, u_{1:N-1}} J = \frac{1}{2}x_N^{\intercal}Q_fx_N + q_f^{\intercal}x_N + \sum_{k=1}^{N-1} \frac{1}{2}x_k^{\intercal}Qx_k + q_k^{\intercal}x_k + \frac{1}{2}u_k^{\intercal}Ru_k + r_k^{\intercal}u_k
+$$
+
+$$
+\text{subject to: } x_{k+1} = Ax_k + Bu_k \quad \forall k \in [1,N)
+$$
+
+When we apply ADMM to this problem, the primal update becomes an equality-constrained quadratic program with modified cost matrices:
+
+$$
+\begin{aligned}
+\tilde{Q}_f &= Q_f + \rho I, \quad \tilde{q}_f = q_f + \lambda_N - \rho z_N \\
+\tilde{Q} &= Q + \rho I, \quad \tilde{q}_k = q_k + \lambda_k - \rho z_k \\
+\tilde{R} &= R + \rho I, \quad \tilde{r}_k = r_k + \mu_k - \rho w_k
+\end{aligned}
+$$
+
+This modified LQR problem has a closed-form solution through the discrete Riccati equation. The feedback law takes the form:
+
+$$
+u_k^* = -K_kx_k - d_k
+$$
+
+where $K_k$ is the feedback gain and $d_k$ is the feedforward term. These are computed through the backward Riccati recursion:
+
+$$
+\begin{aligned}
+K_k &= (R + B^{\intercal}P_{k+1}B)^{-1}(B^{\intercal}P_{k+1}A) \\
+d_k &= (R + B^{\intercal}P_{k+1}B)^{-1}(B^{\intercal}p_{k+1} + r_k) \\
+P_k &= Q + K_k^{\intercal}RK_k + (A - BK_k)^{\intercal}P_{k+1}(A - BK_k) \\
+p_k &= q_k + (A - BK_k)^{\intercal}(p_{k+1} - P_{k+1}Bd_k) + K_k^{\intercal}(Rd_k - r_k)
+\end{aligned}
+$$
+
+The slack update is simpler, requiring only projection onto the constraint sets:
+
+$$
+\begin{aligned}
+z_k^+ &= \text{proj}_{\mathcal{X}}(x_k^+ + y_k) \\
+w_k^+ &= \text{proj}_{\mathcal{U}}(u_k^+ + g_k)
+\end{aligned}
+$$
+
+where $\mathcal{X}$ and $\mathcal{U}$ are the feasible sets for states and inputs respectively, and $y_k, g_k$ are scaled dual variables.
+
+A key optimization in TinyMPC is the pre-computation of certain matrices that remain constant throughout the iterations. Given a sufficiently long horizon, the Riccati recursion converges to the infinite-horizon solution, allowing us to cache:
+
+$$
+\begin{aligned}
+C_1 &= (R + B^{\intercal}P_{\text{inf}}B)^{-1} \\
+C_2 &= (A - BK_{\text{inf}})^{\intercal}
+\end{aligned}
+$$
+
+This significantly reduces the online computational burden while maintaining the algorithm's effectiveness.
+
+---
+
+## Discrete Algebraic Riccati Equation (DARE)
+
+For long time horizons, the Riccati recursion converges to a steady-state solution given by the discrete algebraic Riccati equation:
+
+$$
+P_{\text{inf}} = Q + A^{\intercal}P_{\text{inf}}A - A^{\intercal}P_{\text{inf}}B(R + B^{\intercal}P_{\text{inf}}B)^{-1}B^{\intercal}P_{\text{inf}}A
+$$
+
+This steady-state solution $P_{\text{inf}}$ yields a constant feedback gain:
+
+$$
+K_{\text{inf}} = (R + B^{\intercal}P_{\text{inf}}B)^{-1}B^{\intercal}P_{\text{inf}}A
+$$
+
+TinyMPC leverages this property by pre-computing these steady-state matrices offline, significantly reducing the online computational burden. The only online updates needed are for the time-varying linear terms in the cost function.
+
+---
+
+## Dual Updates and Convergence
+
+The dual update step in ADMM pushes the solution toward constraint satisfaction:
+
+$$
+\begin{aligned}
+y_k^+ &= y_k + x_k^+ - z_k^+ \\
+g_k^+ &= g_k + u_k^+ - w_k^+
+\end{aligned}
+$$
+
+where $y_k$ and $g_k$ are the scaled dual variables ($y_k = \lambda_k/\rho$ and $g_k = \mu_k/\rho$).
+
+The algorithm terminates when both primal and dual residuals are sufficiently small:
+
+$$
+\begin{aligned}
+\text{primal residual: } & \|x_k^+ - z_k^+\|_2 \leq \epsilon_{\text{pri}} \\
+\text{dual residual: } & \rho\|z_k^+ - z_k\|_2 \leq \epsilon_{\text{dual}}
+\end{aligned}
+$$
+
+where $\epsilon_{\text{pri}}$ and $\epsilon_{\text{dual}}$ are user-defined tolerance parameters.
+
 
 <!--
 this is an example of `code` in markdown

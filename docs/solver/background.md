@@ -35,12 +35,24 @@ The indicator function says simply that there is infinite additional cost when $
 
 We modify the generic optimization problem to include the indicator function by adding it to the cost. We introduce a new state variable $z$, called the slack variable, to describe the constrained version of the original state variable $x$, which we will now call the primal variable.
 
-$$
+Since both the state and input constraints are convex ($\mathcal{X}$ and $\mathcal{U}$), ADMM naturally decomposes the problem by projecting the primal variables ($x, u$) onto these convex constraint sets through the slack updates. This projection ensures constraint satisfaction and accelerates convergence by leveraging the separability of the constraint structure. The reduction via ADMM works by alternating between solving smaller subproblems for the primal and slack variables, significantly reducing the complexity of the original constrained optimization problem.
+
+
+
+<!-- $$
 \begin{alignat}{2}
 \min_x & \quad f(x) + I_\mathcal{C}(z) \\
 \text{subject to} & \quad x = z.
 \end{alignat}
+$$ -->
+
 $$
+\begin{alignat}{2}
+\min_{x, u} & \quad f(x, u) + I_\mathcal{X}(z_x) + I_\mathcal{U}(z_u) \\
+\text{subject to} & \quad x = z_x, \quad u = z_u.
+\end{alignat}
+$$
+
 
 At minimum cost, the primal variable $x$ must be equal to the slack variable $z$, but during each solve they will not necessarily be equal. This is because the slack variable $z$ manifests in the algorithm as the version of the primal variable $x$ that has been projected onto the feasible set $\mathcal{C}$, and thus whenever the primal variable $x$ violates any constraint, the slack variable at that iteration will be projected back onto $\mathcal{C}$ and thus differ from $x$. To push the primal variable $x$ back to the feasible set $\mathcal{C}$, we introduce a third variable, $\lambda$, called the dual variable. This method is referred to as the [augmented Lagrangian](https://en.wikipedia.org/wiki/Augmented_Lagrangian_method){:target="_blank"} (originally named the method of multipliers), and introduces a scalar penalty parameter $\rho$ alongside the dual variable $\lambda$ (also known as a Lagrange multiplier). The penalty parameter $\rho$ is the augmentation to what would otherwise just be the Lagrangian of our constrained optimization problem above. $\lambda$ and $\rho$ work together to force $x$ closer to $z$ by increasing the cost of the augmented Lagrangian the more $x$ and $z$ differ.
 
@@ -76,6 +88,14 @@ $$
 $$
 \text{subject to: } x_{k+1} = Ax_k + Bu_k \quad \forall k \in [1,N)
 $$
+
+In addition to the dynamics constraints, the optimization problem also includes convex state and input constraints:
+
+$$
+x_k \in \mathcal{X}, u_k \in \mathcal{U} \quad \forall k \in [1,N)
+$$
+
+where $\mathcal{X}$ and $\mathcal{U}$ are convex sets representing the feasible state and input regions, respectively. These convex constraints ensure that the solution remains within feasible boundaries for both the state and the control inputs at every time step.
 
 When we apply ADMM to this problem, the primal update becomes an equality-constrained quadratic program with modified cost matrices:
 

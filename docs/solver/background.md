@@ -35,7 +35,7 @@ The indicator function says simply that there is infinite additional cost when $
 
 We modify the generic optimization problem to include the indicator function by adding it to the cost. We introduce a new state variable $z$, called the slack variable, to describe the constrained version of the original state variable $x$, which we will now call the primal variable.
 
-Since both the state and input constraints are convex ($\mathcal{X}$ and $\mathcal{U}$), ADMM naturally decomposes the problem by projecting the primal variables ($x, u$) onto these convex constraint sets through the slack updates. This projection ensures constraint satisfaction and accelerates convergence by leveraging the separability of the constraint structure. The reduction via ADMM works by alternating between solving smaller subproblems for the primal and slack variables, significantly reducing the complexity of the original constrained optimization problem.
+Since both the state constraints ($\mathcal{X}$) and input constraints ($\mathcal{U}$) are convex, ADMM naturally decomposes the problem by projecting the primal variables ($x, u$) onto these convex constraint sets through the slack updates. This projection ensures constraint satisfaction and accelerates convergence by leveraging the separability of the constraint structure. The reduction via ADMM works by alternating between solving smaller subproblems for the primal and slack variables, significantly reducing the complexity of the original constrained optimization problem.
 
 
 

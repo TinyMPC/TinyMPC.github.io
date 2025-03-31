@@ -35,7 +35,12 @@ The indicator function says simply that there is infinite additional cost when $
 
 We modify the generic optimization problem to include the indicator function by adding it to the cost. We introduce a new state variable $z$, called the slack variable, to describe the constrained version of the original state variable $x$, which we will now call the primal variable.
 
-Since both the state constraints ($\mathcal{X}$) and input constraints ($\mathcal{U}$) are convex, ADMM naturally decomposes the problem by projecting the primal variables ($x, u$) onto these convex constraint sets through the slack updates. This projection ensures constraint satisfaction and accelerates convergence by leveraging the separability of the constraint structure. The reduction via ADMM works by alternating between solving smaller subproblems for the primal and slack variables, significantly reducing the complexity of the original constrained optimization problem.
+Our approach leverages the ADMM framework to distinctly separate the dynamics constraints from other convex constraints such as torque limits and obstacle avoidance. This separation is crucial as it allows us to:
+1. Handle dynamics through efficient LQR techniques in the primal update
+2. Manage other convex constraints through simple projection methods in the slack update
+
+Since both the state constraints ($\mathcal{X}$) and input constraints ($\mathcal{U}$) are convex, this decomposition works by projecting the primal variables ($x, u$) onto these constraint sets through the slack updates. This projection ensures constraint satisfaction while leveraging the separability of the constraint structure, significantly reducing computational complexity compared to solving the fully constrained problem directly.
+
 
 
 
@@ -82,7 +87,7 @@ Now all we have to do is solve a few unconstrained optimization problems!
 The primal update in TinyMPC takes advantage of the special structure of Model Predictive Control (MPC) problems. The optimization problem can be written as:
 
 $$
-\min_{x_{1:N}, u_{1:N-1}} J = \frac{1}{2}x_N^{\intercal}Q_fx_N + q_f^{\intercal}x_N + \sum_{k=1}^{N-1} \frac{1}{2}x_k^{\intercal}Qx_k + q_k^{\intercal}x_k + \frac{1}{2}u_k^{\intercal}Ru_k + r_k^{\intercal}u_k
+\min_{x_{1:N}, u_{1:N-1}} J = \frac{1}{2}x_N^{\intercal}Q_fx_N + q_f^{\intercal}x_N + \sum_{k=1}^{N-1} \frac{1}{2}x_k^{\intercal}Qx_k + q_k^{\intercal}x_k + \frac{1}{2}u_k^{\intercal}Ru_k
 $$
 
 $$

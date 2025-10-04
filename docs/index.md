@@ -6,15 +6,15 @@ description: TinyMPC description and overview
 # Welcome to TinyMPC's documentation!
 
 <p align="center">
-  <img width="50%" src="media/lightmode-banner.png#only-light" />
-  <img width="50%" src="media/darkmode-banner.png#only-dark" />
+  <img width="50%" src="media/tinympc-light-logo.png#only-light" />
+  <img width="50%" src="media/tinympc-dark-logo.png#only-dark" />
 </p>
 
 <p align="center" markdown>
     [Get Started :material-arrow-right-box:](get-started/installation.md){.md-button}
 </p>
 
-TinyMPC is an open-source solver tailored for convex model-predictive control that delivers high speed computation with a small memory footprint. Implemented in C++ with minimal dependencies, TinyMPC is particularly suited for embedded control and robotics applications on resource-constrained platforms. TinyMPC can handle state and input bounds and second-order cone constraints. A Python interface is available to aid in generating code for embedded systems.
+TinyMPC is an open-source solver tailored for convex model-predictive control that delivers high speed computation with a small memory footprint. Implemented in C++ with minimal dependencies, TinyMPC is particularly suited for embedded control and robotics applications on resource-constrained platforms. TinyMPC can handle state and input bounds and second-order cone constraints. [Python](https://github.com/TinyMPC/tinympc-python), [MATLAB](https://github.com/TinyMPC/tinympc-matlab), and [Julia](https://github.com/TinyMPC/tinympc-julia) interfaces are available to aid in generating code for embedded systems.
 
 !!! success "" 
 
@@ -75,11 +75,11 @@ TinyMPC outperforms state-of-the-art solvers in terms of speed and memory footpr
 </figure>
 
 <figure markdown="span">
-    ![CDC24 MCU benchmarks](media/cdc_bench.png){ width=60% align=left}
+    ![ICRA26 benchmarks](media/icra_2026_benchmarks.png){ width=60% align=left}
     <div style="text-align: left;">
         <br>
         <br>
-        TinyMPC is also capable of handling conic constraints. In (b), we benchmarked TinyMPC against two existing conic solvers with embedded support, [SCS](https://www.cvxgrp.org/scs/){:target="_blank"} and [ECOS](https://web.stanford.edu/~boyd/papers/ecos.html){:target="_blank"}, on the rocket soft-landing problem. TinyMPC achieves an average speed-up of 13x over SCS and 137x over ECOS.
+        TinyMPC is also capable of handling conic constraints. Conic-TinyMPC outperforms [SCS](https://www.cvxgrp.org/scs/){:target="_blank"} and [ECOS](https://web.stanford.edu/~boyd/papers/ecos.html){:target="_blank"} in execution time and memory, achieving an average speed-up of 13.8x over SCS and 142.7x over ECOS.
         <!-- #gain, because of its lack of generality, TinyMPC is orders of magnitudes faster than SCS and ECOS. -->
     </div>
 </figure>
@@ -98,18 +98,8 @@ TinyMPC outperforms state-of-the-art solvers in terms of speed and memory footpr
 
 ## Made by
 
+<!-- First row: Khai, Sam, Ishaan -->
 <div style="display: flex;">
-    <div style="flex: 1;">
-        <p align="center">
-            <a href="https://www.linkedin.com/in/anoushka-alavilli-89586b178/" target="_blank"><img style="border-radius: 0%;" width="60%" src="media/contributors/anoushka_alavilli.jpg" /></a>
-        </p>
-        <h4 align="center">
-            Anoushka Alavilli
-        </h4>
-        <!-- <h6 align="center">
-            Main developer
-        </h6> -->
-    </div>
     <div style="flex: 1;">
         <p align="center">
             <a href="https://xkhainguyen.github.io/" target="_blank"><img style="border-radius: 0%;" width="60%" src="media/contributors/khai_nguyen.jpg" /></a>
@@ -117,9 +107,6 @@ TinyMPC outperforms state-of-the-art solvers in terms of speed and memory footpr
         <h4 align="center">
             Khai Nguyen
         </h4>
-        <!-- <h6 align="center">
-            Main developer
-        </h6> -->
     </div>
     <div style="flex: 1;">
         <p align="center">
@@ -128,14 +115,27 @@ TinyMPC outperforms state-of-the-art solvers in terms of speed and memory footpr
         <h4 align="center">
             Sam Schoedel
         </h4>
-        <!-- <h6 align="center">
-            Main developer
-        </h6> -->
+    </div>
+    <div style="flex: 1;">
+        <p align="center">
+            <a href="https://ishaanmahajan.com/" target="_blank"><img style="border-radius: 0%;" width="60%" src="media/contributors/ishaan_mahajan.jpg" /></a>
+        </p>
+        <h4 align="center">
+            Ishaan Mahajan
+        </h4>
     </div>
 </div>
 
-
+<!-- Second row: Anoushka, Elakhya, Moises -->
 <div style="display: flex;">
+    <div style="flex: 1;">
+        <p align="center">
+            <a href="https://www.linkedin.com/in/anoushka-alavilli-89586b178/" target="_blank"><img style="border-radius: 0%;" width="60%" src="media/contributors/anoushka_alavilli.jpg" /></a>
+        </p>
+        <h4 align="center">
+            Anoushka Alavilli
+        </h4>
+    </div>
     <div style="flex: 1;">
         <p align="center">
             <a href="https://www.linkedin.com/in/elakhya-nedumaran/" target="_blank"><img style="border-radius: 0%;" width="60%" src="media/contributors/elakhya_nedumaran.png" /></a>
@@ -143,31 +143,34 @@ TinyMPC outperforms state-of-the-art solvers in terms of speed and memory footpr
         <h4 align="center">
             Elakhya Nedumaran
         </h4>
-        <!-- <h6 align="center">
-            Code generation and interfaces
-        </h6> -->
     </div>
     <div style="flex: 1;">
+        <p align="center">
+            <a href="https://www.linkedin.com/in/moises-mata-cu/" target="_blank"><img style="border-radius: 0%;" width="60%" src="media/contributors/moises_mata.jpg" /></a>
+        </p>
+        <h4 align="center">
+            Moises Mata
+        </h4>
+    </div>
+</div>
+
+<!-- Third row: Brian and Zac (centered with proper sizing) -->
+<div style="display: flex; justify-content: center;">
+    <div style="flex: 0 0 33.33%; max-width: 33.33%;">
         <p align="center">
             <a href="https://brianplancher.com/" target="_blank"><img style="border-radius: 0%;" width="60%" src="media/contributors/brian_plancher.jpg" /></a>
         </p>
         <h4 align="center">
             Prof. Brian Plancher
         </h4>
-        <!-- <h6 align="center">
-            Math and advice
-        </h6> -->
     </div>
-    <div style="flex: 1;">
+    <div style="flex: 0 0 33.33%; max-width: 33.33%;">
         <p align="center">
             <a href="https://www.linkedin.com/in/zacmanchester/" target="_blank"><img style="border-radius: 0%;" width="60%" src="media/contributors/zac_manchester.jpg" /></a>
         </p>
         <h4 align="center">
             Prof. Zac Manchester
         </h4>
-        <!-- <h6 align="center">
-            Math and advice
-        </h6> -->
     </div>
 </div>
 
@@ -191,5 +194,14 @@ TinyMPC outperforms state-of-the-art solvers in terms of speed and memory footpr
       year={2024},
       eprint={2403.18149},
       archivePrefix={arXiv},
+}
+```
+
+```latex
+@article{mahajan2025robust,
+      title={Robust and Efficient Embedded Convex Optimization through First-Order Adaptive Caching},
+      author={Mahajan, Ishaan and Plancher, Brian},
+      journal={arXiv preprint arXiv:2507.03231},
+      year={2025}
 }
 ```

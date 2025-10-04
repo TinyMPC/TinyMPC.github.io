@@ -15,10 +15,10 @@ The alternating direction method of multipliers algorithm was developed in the 1
 We want to solve optimization problems in which our cost function $f$ and set of valid states $\mathcal{C}$ are both convex:
 
 $$
-\begin{alignat}{2}
-\min_x & \quad f(x) \\
-\text{subject to} & \quad x \in \mathcal{C}.
-\end{alignat}
+\begin{aligned}
+\min_x \quad & f(x) \\
+\text{subject to} \quad & x \in \mathcal{C}
+\end{aligned}
 $$
 
 We define an indicator function for the set $\mathcal{C}$:
@@ -68,18 +68,17 @@ $$
 Our optimization problem has now been divided into two variables: the primal $x$ and slack $z$, and we can optimize over each one individually while holding all of the other variables constant. To get the ADMM algorithm, all we have to do is alternate between solving for the $x$ and then for the $z$ that minimizes our augmented Lagrangian. After each set of solves, we then update our dual variable $\lambda$ based on how much $x$ differs from $z$.
 
 $$
-\begin{alignat}{3}
-\text{primal update: } & x^+ & ={} & \underset{x}{\arg \min} \hspace{2pt} \mathcal{L}_A(x,z,\lambda), \\
-\text{slack update: } & z^+ & ={} & \underset{z}{\arg \min} \hspace{2pt} \mathcal{L}_A(x^+,z,\lambda), \\
-\text{dual update: } & \lambda^+ & ={} & \lambda + \rho(x^+ - z^+),
-\end{alignat}
+\begin{aligned}
+\text{primal update: } x^+ &= \underset{x}{\arg \min} \, \mathcal{L}_A(x,z,\lambda), \\
+\text{slack update: } z^+ &= \underset{z}{\arg \min} \, \mathcal{L}_A(x^+,z,\lambda), \\
+\text{dual update: } \lambda^+ &= \lambda + \rho(x^+ - z^+)
+\end{aligned}
 $$
 
 where $x^+$, $z^+$, and $\lambda^+$ refer to the primal, slack, and dual variables to be used in the next iteration.
 
 Now all we have to do is solve a few unconstrained optimization problems!
 
-<!-- ## TODO: primal and slack update and discrete algebraic riccati equation -->
 ---
 
 ## Primal and slack update
@@ -87,7 +86,7 @@ Now all we have to do is solve a few unconstrained optimization problems!
 The primal update in TinyMPC takes advantage of the special structure of Model Predictive Control (MPC) problems. The optimization problem can be written as:
 
 $$
-\min_{x_{1:N}, u_{1:N-1}} J = \frac{1}{2}x_N^{\intercal}Q_fx_N + q_f^{\intercal}x_N + \sum_{k=1}^{N-1} \frac{1}{2}x_k^{\intercal}Qx_k + q_k^{\intercal}x_k + \frac{1}{2}u_k^{\intercal}Ru_k
+\min_{x_{1:N}, u_{1:N-1}} J = \frac{1}{2}x_N^\intercal Q_f x_N + q_f^\intercal x_N + \sum_{k=1}^{N-1} \frac{1}{2}x_k^\intercal Q x_k + q_k^\intercal x_k + \frac{1}{2}u_k^\intercal R u_k + r_k^\intercal u_k
 $$
 
 $$
@@ -122,10 +121,10 @@ where $K_k$ is the feedback gain and $d_k$ is the feedforward term. These are co
 
 $$
 \begin{aligned}
-K_k &= (R + B^{\intercal}P_{k+1}B)^{-1}(B^{\intercal}P_{k+1}A) \\
-d_k &= (R + B^{\intercal}P_{k+1}B)^{-1}(B^{\intercal}p_{k+1} + r_k) \\
-P_k &= Q + K_k^{\intercal}RK_k + (A - BK_k)^{\intercal}P_{k+1}(A - BK_k) \\
-p_k &= q_k + (A - BK_k)^{\intercal}(p_{k+1} - P_{k+1}Bd_k) + K_k^{\intercal}(Rd_k - r_k)
+K_k &= (R + B^\intercal P_{k+1} B)^{-1}(B^\intercal P_{k+1} A) \\
+d_k &= (R + B^\intercal P_{k+1} B)^{-1}(B^\intercal p_{k+1} + r_k) \\
+P_k &= Q + K_k^\intercal R K_k + (A - B K_k)^\intercal P_{k+1} (A - B K_k) \\
+p_k &= q_k + (A - B K_k)^\intercal (p_{k+1} - P_{k+1} B d_k) + K_k^\intercal (R d_k - r_k)
 \end{aligned}
 $$
 
@@ -144,8 +143,8 @@ A key optimization in TinyMPC is the pre-computation of certain matrices that re
 
 $$
 \begin{aligned}
-C_1 &= (R + B^{\intercal}P_{\text{inf}}B)^{-1} \\
-C_2 &= (A - BK_{\text{inf}})^{\intercal}
+C_1 &= (R + B^\intercal P_{\text{inf}} B)^{-1} \\
+C_2 &= (A - B K_{\text{inf}})^\intercal
 \end{aligned}
 $$
 
@@ -158,13 +157,13 @@ This significantly reduces the online computational burden while maintaining the
 For long time horizons, the Riccati recursion converges to a steady-state solution given by the discrete algebraic Riccati equation:
 
 $$
-P_{\text{inf}} = Q + A^{\intercal}P_{\text{inf}}A - A^{\intercal}P_{\text{inf}}B(R + B^{\intercal}P_{\text{inf}}B)^{-1}B^{\intercal}P_{\text{inf}}A
+P_{\text{inf}} = Q + A^\intercal P_{\text{inf}} A - A^\intercal P_{\text{inf}} B(R + B^\intercal P_{\text{inf}} B)^{-1} B^\intercal P_{\text{inf}} A
 $$
 
 This steady-state solution $P_{\text{inf}}$ yields a constant feedback gain:
 
 $$
-K_{\text{inf}} = (R + B^{\intercal}P_{\text{inf}}B)^{-1}B^{\intercal}P_{\text{inf}}A
+K_{\text{inf}} = (R + B^\intercal P_{\text{inf}} B)^{-1} B^\intercal P_{\text{inf}} A
 $$
 
 TinyMPC leverages this property by pre-computing these steady-state matrices offline, significantly reducing the online computational burden. The only online updates needed are for the time-varying linear terms in the cost function.

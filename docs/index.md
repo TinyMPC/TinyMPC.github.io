@@ -22,8 +22,9 @@ TinyMPC is an open-source solver tailored for convex model-predictive control th
 
 
 <p align="center" markdown>
-    [ICRA Paper :simple-arxiv:](https://arxiv.org/abs/2310.16985){:target="_blank" .md-button}
+    [Original ICRA Paper :simple-arxiv:](https://arxiv.org/abs/2310.16985){:target="_blank" .md-button}
     [Conic Code Gen :simple-arxiv:](https://arxiv.org/abs/2403.18149){:target="_blank" .md-button}
+    [Adaptive Rho :simple-arxiv:](https://arxiv.org/abs/2507.03231){:target="_blank" .md-button}
     [Overview Video :fontawesome-brands-youtube:](https://www.youtube.com/watch?v=NKOrRyhcr6w){:target="_blank" .md-button}
 </p>
 
@@ -158,7 +159,7 @@ TinyMPC outperforms state-of-the-art solvers in terms of speed and memory footpr
 <div style="display: flex; justify-content: center;">
     <div style="flex: 0 0 33.33%; max-width: 33.33%;">
         <p align="center">
-            <a href="https://brianplancher.com/" target="_blank"><img style="border-radius: 0%;" width="60%" src="media/contributors/brian_plancher.jpg" /></a>
+            <a href="https://brianplancher.com/" target="_blank"><img style="border-radius: 0%;" width="60%" src="media/contributors/brian_plancher.png" /></a>
         </p>
         <h4 align="center">
             Prof. Brian Plancher
@@ -189,19 +190,19 @@ TinyMPC outperforms state-of-the-art solvers in terms of speed and memory footpr
 
 ```latex
 @misc{tinympc-conic-codegen,
-      title={Code Generation for Conic Model-Predictive Control on Microcontrollers with TinyMPC}, 
-      author={Sam Schoedel and Khai Nguyen and Elakhya Nedumaran and Brian Plancher and Zachary Manchester},
-      year={2024},
+      title={Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC}, 
+      author={Ishaan Mahajan and Khai Nguyen and Sam Schoedel and Elakhya Nedumaran and Moises Mata and Brian Plancher and Zachary Manchester},
+      year={2025},
       eprint={2403.18149},
       archivePrefix={arXiv},
 }
 ```
 
 ```latex
-@article{mahajan2025robust,
-      title={Robust and Efficient Embedded Convex Optimization through First-Order Adaptive Caching},
-      author={Mahajan, Ishaan and Plancher, Brian},
-      journal={arXiv preprint arXiv:2507.03231},
+@inproceedings{tinympc-adaptive,
+      title={Robust and Efficient Embedded Convex Optimization through First-Order Adaptive Caching}, 
+      author={Ishaan Mahajan and Brian Plancher},
+      booktitle={IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
       year={2025}
 }
 ```

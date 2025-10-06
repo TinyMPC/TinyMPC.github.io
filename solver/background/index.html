@@ -1,0 +1,975 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../solver/">
+      
+      
+      
+      <link rel="icon" href="../../media/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Background - TinyMPC</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+  
+  
+  
+  
+  <style>:root{--md-annotation-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M22%2012a10%2010%200%200%201-10%2010A10%2010%200%200%201%202%2012%2010%2010%200%200%201%2012%202a10%2010%200%200%201%2010%2010M6%2013h8l-3.5%203.5%201.42%201.42L17.84%2012l-5.92-5.92L10.5%207.5%2014%2011H6z%22/%3E%3C/svg%3E');}</style>
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#overview" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="TinyMPC" class="md-header__button md-logo" aria-label="TinyMPC" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M176 24c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c-35.3 0-64 28.7-64 64H24c-13.3 0-24 10.7-24 24s10.7 24 24 24h40v56H24c-13.3 0-24 10.7-24 24s10.7 24 24 24h40v56H24c-13.3 0-24 10.7-24 24s10.7 24 24 24h40c0 35.3 28.7 64 64 64v40c0 13.3 10.7 24 24 24s24-10.7 24-24v-40h56v40c0 13.3 10.7 24 24 24s24-10.7 24-24v-40h56v40c0 13.3 10.7 24 24 24s24-10.7 24-24v-40c35.3 0 64-28.7 64-64h40c13.3 0 24-10.7 24-24s-10.7-24-24-24h-40v-56h40c13.3 0 24-10.7 24-24s-10.7-24-24-24h-40v-56h40c13.3 0 24-10.7 24-24s-10.7-24-24-24h-40c0-35.3-28.7-64-64-64V24c0-13.3-10.7-24-24-24s-24 10.7-24 24v40h-56V24c0-13.3-10.7-24-24-24s-24 10.7-24 24v40h-56zm-16 104h192c17.7 0 32 14.3 32 32v192c0 17.7-14.3 32-32 32H160c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32m16 48v160h160V176z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            TinyMPC
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Background
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/TinyMPC/TinyMPC" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    TinyMPC
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../get-started/installation/" class="md-tabs__link">
+          
+  
+  
+  Get Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../solver/" class="md-tabs__link">
+          
+  
+  
+  The Solver
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="TinyMPC" class="md-nav__button md-logo" aria-label="TinyMPC" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M176 24c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c-35.3 0-64 28.7-64 64H24c-13.3 0-24 10.7-24 24s10.7 24 24 24h40v56H24c-13.3 0-24 10.7-24 24s10.7 24 24 24h40v56H24c-13.3 0-24 10.7-24 24s10.7 24 24 24h40c0 35.3 28.7 64 64 64v40c0 13.3 10.7 24 24 24s24-10.7 24-24v-40h56v40c0 13.3 10.7 24 24 24s24-10.7 24-24v-40h56v40c0 13.3 10.7 24 24 24s24-10.7 24-24v-40c35.3 0 64-28.7 64-64h40c13.3 0 24-10.7 24-24s-10.7-24-24-24h-40v-56h40c13.3 0 24-10.7 24-24s-10.7-24-24-24h-40v-56h40c13.3 0 24-10.7 24-24s-10.7-24-24-24h-40c0-35.3-28.7-64-64-64V24c0-13.3-10.7-24-24-24s-24 10.7-24 24v40h-56V24c0-13.3-10.7-24-24-24s-24 10.7-24 24v40h-56zm-16 104h192c17.7 0 32 14.3 32 32v192c0 17.7-14.3 32-32 32H160c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32m16 48v160h160V176z"/></svg>
+
+    </a>
+    TinyMPC
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/TinyMPC/TinyMPC" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    TinyMPC
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Get Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Get Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../get-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../get-started/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../get-started/model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Obtaining the model
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    The Solver
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            The Solver
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../solver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Inside TinyMPC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Background
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Background
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternating-direction-method-of-multipliers-admm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alternating direction method of multipliers (ADMM)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primal-and-slack-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      Primal and slack update
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discrete-algebraic-riccati-equation-dare" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discrete Algebraic Riccati Equation (DARE)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dual-updates-and-convergence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dual Updates and Convergence
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Background</h1>
+
+<h2 id="overview">Overview</h2>
+<p>The underlying algorithm is the <a href="https://stanford.edu/~boyd/admm.html" target="_blank">alternating direction method of multipliers</a>. TinyMPC reformulates the primal update step - the part that usually takes the longest - as an <a href="https://en.wikipedia.org/wiki/Linear%E2%80%93quadratic_regulator" target="_blank">LQR problem</a>. These have been studied for decades, and we know how to write LQR problems in a closed form: specifically, using <a href="https://en.wikipedia.org/wiki/Algebraic_Riccati_equation" target="_blank">Riccati recursion</a>. We reorganize some of this recursive function to extract big matrices that only need to be computed once. In the vanilla implementation, this restricts TinyMPC to solving only a <em>linear</em> trajectory tracking problem (with any kinds of constraints, as long as they can be quickly re-linearized online). However, as seen in our demo videos, a single linearization can go a long way.</p>
+<hr />
+<h2 id="alternating-direction-method-of-multipliers-admm">Alternating direction method of multipliers (ADMM)</h2>
+<p>The alternating direction method of multipliers algorithm was developed in the 1970s and <a href="https://stanford.edu/~boyd/papers/pdf/admm_distr_stats.pdf" target="_blank">used in 2011 by researchers at Stanford</a> to better solve the problem of distributed convex optimization. Some of these researchers later helped in developing <a href="https://osqp.org/" target="_blank">OSQP, the Operator Splitting Quadratic Program solver</a>. TinyMPC takes much of its inspiration from these two sources.</p>
+<p>We want to solve optimization problems in which our cost function <span class="arithmatex">\(f\)</span> and set of valid states <span class="arithmatex">\(\mathcal{C}\)</span> are both convex:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\min_x \quad &amp; f(x) \\
+\text{subject to} \quad &amp; x \in \mathcal{C}
+\end{aligned}
+\]</div>
+<p>We define an indicator function for the set <span class="arithmatex">\(\mathcal{C}\)</span>:</p>
+<div class="arithmatex">\[
+I_\mathcal{C}(x) =
+\begin{cases}
+0 &amp; x \in \mathcal{C} \\
+\infty &amp; \text{otherwise}.
+\end{cases}
+\]</div>
+<p>The indicator function says simply that there is infinite additional cost when <span class="arithmatex">\(x\)</span> violates the constraints (the state <span class="arithmatex">\(x\)</span> is outside the set of valid states <span class="arithmatex">\(\mathcal{C}\)</span>) and zero additional cost for obeying the constraints (<span class="arithmatex">\(x\)</span> is inside the set <span class="arithmatex">\(\mathcal{C}\)</span>). Thus, we need to be able to determine whether or not a state is in the set <span class="arithmatex">\(\mathcal{C}\)</span> in order to know if all the constraints on our problem are being met. For speed of computation, this often takes the form <span class="arithmatex">\(Hx \geq h\)</span> (or <span class="arithmatex">\(Hx \leq h\)</span>, or a combination of <span class="arithmatex">\(Hx \geq h\)</span> and <span class="arithmatex">\(Gx \leq g\)</span> (each of these can be rewritten to be equivalent to the others)). This form can describe any kind of linear constraint in <span class="arithmatex">\(x\)</span>. To do obstacle avoidance, for example, it is common to arrange <span class="arithmatex">\(H\)</span> and <span class="arithmatex">\(h\)</span> as half-space constraints where, in three dimensions, the entire space is split by a plane and only one half is inside the set <span class="arithmatex">\(\mathcal{C}\)</span>. For arbitrary dimensionality, we say the space is divided by a hyperplane.</p>
+<p>We modify the generic optimization problem to include the indicator function by adding it to the cost. We introduce a new state variable <span class="arithmatex">\(z\)</span>, called the slack variable, to describe the constrained version of the original state variable <span class="arithmatex">\(x\)</span>, which we will now call the primal variable.</p>
+<p>Our approach leverages the ADMM framework to distinctly separate the dynamics constraints from other convex constraints such as torque limits and obstacle avoidance. This separation is crucial as it allows us to:
+1. Handle dynamics through efficient LQR techniques in the primal update
+2. Manage other convex constraints through simple projection methods in the slack update</p>
+<p>Since both the state constraints (<span class="arithmatex">\(\mathcal{X}\)</span>) and input constraints (<span class="arithmatex">\(\mathcal{U}\)</span>) are convex, this decomposition works by projecting the primal variables (<span class="arithmatex">\(x, u\)</span>) onto these constraint sets through the slack updates. This projection ensures constraint satisfaction while leveraging the separability of the constraint structure, significantly reducing computational complexity compared to solving the fully constrained problem directly.</p>
+<!-- $$
+\begin{alignat}{2}
+\min_x & \quad f(x) + I_\mathcal{C}(z) \\
+\text{subject to} & \quad x = z.
+\end{alignat}
+$$ -->
+
+<div class="arithmatex">\[
+\begin{alignat}{2}
+\min_{x, u} &amp; \quad f(x, u) + I_\mathcal{X}(z_x) + I_\mathcal{U}(z_u) \\
+\text{subject to} &amp; \quad x = z_x, \quad u = z_u.
+\end{alignat}
+\]</div>
+<p>At minimum cost, the primal variable <span class="arithmatex">\(x\)</span> must be equal to the slack variable <span class="arithmatex">\(z\)</span>, but during each solve they will not necessarily be equal. This is because the slack variable <span class="arithmatex">\(z\)</span> manifests in the algorithm as the version of the primal variable <span class="arithmatex">\(x\)</span> that has been projected onto the feasible set <span class="arithmatex">\(\mathcal{C}\)</span>, and thus whenever the primal variable <span class="arithmatex">\(x\)</span> violates any constraint, the slack variable at that iteration will be projected back onto <span class="arithmatex">\(\mathcal{C}\)</span> and thus differ from <span class="arithmatex">\(x\)</span>. To push the primal variable <span class="arithmatex">\(x\)</span> back to the feasible set <span class="arithmatex">\(\mathcal{C}\)</span>, we introduce a third variable, <span class="arithmatex">\(\lambda\)</span>, called the dual variable. This method is referred to as the <a href="https://en.wikipedia.org/wiki/Augmented_Lagrangian_method" target="_blank">augmented Lagrangian</a> (originally named the method of multipliers), and introduces a scalar penalty parameter <span class="arithmatex">\(\rho\)</span> alongside the dual variable <span class="arithmatex">\(\lambda\)</span> (also known as a Lagrange multiplier). The penalty parameter <span class="arithmatex">\(\rho\)</span> is the augmentation to what would otherwise just be the Lagrangian of our constrained optimization problem above. <span class="arithmatex">\(\lambda\)</span> and <span class="arithmatex">\(\rho\)</span> work together to force <span class="arithmatex">\(x\)</span> closer to <span class="arithmatex">\(z\)</span> by increasing the cost of the augmented Lagrangian the more <span class="arithmatex">\(x\)</span> and <span class="arithmatex">\(z\)</span> differ.</p>
+<div class="arithmatex">\[
+\mathcal{L}_A(x,z,\lambda) = f(x) + I_\mathcal{C}(z) + \lambda^\intercal(x-z) + \frac{\rho}{2}\|x-z\|^2_2.
+\]</div>
+<p>Our optimization problem has now been divided into two variables: the primal <span class="arithmatex">\(x\)</span> and slack <span class="arithmatex">\(z\)</span>, and we can optimize over each one individually while holding all of the other variables constant. To get the ADMM algorithm, all we have to do is alternate between solving for the <span class="arithmatex">\(x\)</span> and then for the <span class="arithmatex">\(z\)</span> that minimizes our augmented Lagrangian. After each set of solves, we then update our dual variable <span class="arithmatex">\(\lambda\)</span> based on how much <span class="arithmatex">\(x\)</span> differs from <span class="arithmatex">\(z\)</span>.</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\text{primal update: } x^+ &amp;= \underset{x}{\arg \min} \, \mathcal{L}_A(x,z,\lambda), \\
+\text{slack update: } z^+ &amp;= \underset{z}{\arg \min} \, \mathcal{L}_A(x^+,z,\lambda), \\
+\text{dual update: } \lambda^+ &amp;= \lambda + \rho(x^+ - z^+)
+\end{aligned}
+\]</div>
+<p>where <span class="arithmatex">\(x^+\)</span>, <span class="arithmatex">\(z^+\)</span>, and <span class="arithmatex">\(\lambda^+\)</span> refer to the primal, slack, and dual variables to be used in the next iteration.</p>
+<p>Now all we have to do is solve a few unconstrained optimization problems!</p>
+<hr />
+<h2 id="primal-and-slack-update">Primal and slack update</h2>
+<p>The primal update in TinyMPC takes advantage of the special structure of Model Predictive Control (MPC) problems. The optimization problem can be written as:</p>
+<div class="arithmatex">\[
+\min_{x_{1:N}, u_{1:N-1}} J = \frac{1}{2}x_N^\intercal Q_f x_N + q_f^\intercal x_N + \sum_{k=1}^{N-1} \frac{1}{2}x_k^\intercal Q x_k + q_k^\intercal x_k + \frac{1}{2}u_k^\intercal R u_k + r_k^\intercal u_k
+\]</div>
+<div class="arithmatex">\[
+\text{subject to: } x_{k+1} = Ax_k + Bu_k \quad \forall k \in [1,N)
+\]</div>
+<p>In addition to the dynamics constraints, the optimization problem also includes convex state and input constraints:</p>
+<div class="arithmatex">\[
+x_k \in \mathcal{X}, u_k \in \mathcal{U} \quad \forall k \in [1,N)
+\]</div>
+<p>where <span class="arithmatex">\(\mathcal{X}\)</span> and <span class="arithmatex">\(\mathcal{U}\)</span> are convex sets representing the feasible state and input regions, respectively. These convex constraints ensure that the solution remains within feasible boundaries for both the state and the control inputs at every time step.</p>
+<p>When we apply ADMM to this problem, the primal update becomes an equality-constrained quadratic program with modified cost matrices:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\tilde{Q}_f &amp;= Q_f + \rho I, \quad \tilde{q}_f = q_f + \lambda_N - \rho z_N \\
+\tilde{Q} &amp;= Q + \rho I, \quad \tilde{q}_k = q_k + \lambda_k - \rho z_k \\
+\tilde{R} &amp;= R + \rho I, \quad \tilde{r}_k = r_k + \mu_k - \rho w_k
+\end{aligned}
+\]</div>
+<p>This modified LQR problem has a closed-form solution through the discrete Riccati equation. The feedback law takes the form:</p>
+<div class="arithmatex">\[
+u_k^* = -K_kx_k - d_k
+\]</div>
+<p>where <span class="arithmatex">\(K_k\)</span> is the feedback gain and <span class="arithmatex">\(d_k\)</span> is the feedforward term. These are computed through the backward Riccati recursion:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+K_k &amp;= (R + B^\intercal P_{k+1} B)^{-1}(B^\intercal P_{k+1} A) \\
+d_k &amp;= (R + B^\intercal P_{k+1} B)^{-1}(B^\intercal p_{k+1} + r_k) \\
+P_k &amp;= Q + K_k^\intercal R K_k + (A - B K_k)^\intercal P_{k+1} (A - B K_k) \\
+p_k &amp;= q_k + (A - B K_k)^\intercal (p_{k+1} - P_{k+1} B d_k) + K_k^\intercal (R d_k - r_k)
+\end{aligned}
+\]</div>
+<p>The slack update is simpler, requiring only projection onto the constraint sets:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+z_k^+ &amp;= \text{proj}_{\mathcal{X}}(x_k^+ + y_k) \\
+w_k^+ &amp;= \text{proj}_{\mathcal{U}}(u_k^+ + g_k)
+\end{aligned}
+\]</div>
+<p>where <span class="arithmatex">\(\mathcal{X}\)</span> and <span class="arithmatex">\(\mathcal{U}\)</span> are the feasible sets for states and inputs respectively, and <span class="arithmatex">\(y_k, g_k\)</span> are scaled dual variables.</p>
+<p>A key optimization in TinyMPC is the pre-computation of certain matrices that remain constant throughout the iterations. Given a sufficiently long horizon, the Riccati recursion converges to the infinite-horizon solution, allowing us to cache:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+C_1 &amp;= (R + B^\intercal P_{\text{inf}} B)^{-1} \\
+C_2 &amp;= (A - B K_{\text{inf}})^\intercal
+\end{aligned}
+\]</div>
+<p>This significantly reduces the online computational burden while maintaining the algorithm's effectiveness.</p>
+<hr />
+<h2 id="discrete-algebraic-riccati-equation-dare">Discrete Algebraic Riccati Equation (DARE)</h2>
+<p>For long time horizons, the Riccati recursion converges to a steady-state solution given by the discrete algebraic Riccati equation:</p>
+<div class="arithmatex">\[
+P_{\text{inf}} = Q + A^\intercal P_{\text{inf}} A - A^\intercal P_{\text{inf}} B(R + B^\intercal P_{\text{inf}} B)^{-1} B^\intercal P_{\text{inf}} A
+\]</div>
+<p>This steady-state solution <span class="arithmatex">\(P_{\text{inf}}\)</span> yields a constant feedback gain:</p>
+<div class="arithmatex">\[
+K_{\text{inf}} = (R + B^\intercal P_{\text{inf}} B)^{-1} B^\intercal P_{\text{inf}} A
+\]</div>
+<p>TinyMPC leverages this property by pre-computing these steady-state matrices offline, significantly reducing the online computational burden. The only online updates needed are for the time-varying linear terms in the cost function.</p>
+<hr />
+<h2 id="dual-updates-and-convergence">Dual Updates and Convergence</h2>
+<p>The dual update step in ADMM pushes the solution toward constraint satisfaction:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+y_k^+ &amp;= y_k + x_k^+ - z_k^+ \\
+g_k^+ &amp;= g_k + u_k^+ - w_k^+
+\end{aligned}
+\]</div>
+<p>where <span class="arithmatex">\(y_k\)</span> and <span class="arithmatex">\(g_k\)</span> are the scaled dual variables (<span class="arithmatex">\(y_k = \lambda_k/\rho\)</span> and <span class="arithmatex">\(g_k = \mu_k/\rho\)</span>).</p>
+<p>The algorithm terminates when both primal and dual residuals are sufficiently small:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\text{primal residual: } &amp; \|x_k^+ - z_k^+\|_2 \leq \epsilon_{\text{pri}} \\
+\text{dual residual: } &amp; \rho\|z_k^+ - z_k\|_2 \leq \epsilon_{\text{dual}}
+\end{aligned}
+\]</div>
+<p>where <span class="arithmatex">\(\epsilon_{\text{pri}}\)</span> and <span class="arithmatex">\(\epsilon_{\text{dual}}\)</span> are user-defined tolerance parameters.</p>
+<!--
+this is an example of `code` in markdown
+<!-- ``` py (or c or cpp) title="<custom title>" { .yaml .no-copy } --/>
+<div class="language-julia highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c"># This is a function</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">function</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">:</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="c"># (1)</span>
+</span></code></pre></div>
+
+1.  :man_raising_hand: I'm a code annotation! I can contain `code`, __formatted
+    text__, images, ... basically anything that can be written in Markdown.
+
+<!-- 
+1.  :man_raising_hand: I'm $\beta$ $\int_5^{3x^2}$ a code annotation! I can contain `code`, __formatted
+    text__, images, ... basically anything that can be written in Markdown.
+-->
+
+<!-- 
+Hi this is something I am writing. (1)
+{.annotate}
+
+1. Hi this is an annotation with $\int_5^{3x^2}\sin(t) dt$, <span style="color:blue">some *colorful* text</span>, and emojis: :material-rocket:
+-->
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../solver/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Inside TinyMPC">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Inside TinyMPC
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Robotic Exploration Lab
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://www.youtube.com/watch?v=NKOrRyhcr6w" target="_blank" rel="noopener" title="TinyMPC on YouTube" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M549.7 124.1c-6.2-23.7-24.8-42.3-48.3-48.6C458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5c-23.5 6.3-42 24.9-48.3 48.6C15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8C117.3 448 288.1 448 288.1 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6V175.2l142.7 81.2z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/TinyMPC" target="_blank" rel="noopener" title="TinyMPC on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://arxiv.org/abs/2310.16985" target="_blank" rel="noopener" title="TinyMPC on arXiv" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.842 0a1 1 0 0 0-.922.608c-.153.369-.044.627.294 1.111l6.919 8.36-1.023 1.106a1.04 1.04 0 0 0 .003 1.423l1.23 1.313-5.44 6.444c-.28.3-.453.823-.297 1.199a1.025 1.025 0 0 0 .959.635.91.91 0 0 0 .689-.34l5.783-6.126 7.49 8.005a.85.85 0 0 0 .684.26.96.96 0 0 0 .877-.615c.158-.377-.017-.75-.306-1.14L13.73 13.9l1.064-1.13a.963.963 0 0 0 .009-1.316L4.633.464S4.26.01 3.867 0zm0 .272h.017c.218.005.487.272.564.364l.005.006.005.005 10.17 10.99a.69.69 0 0 1-.008.946l-1.066 1.133-1.498-1.772-8.6-10.39c-.328-.472-.352-.619-.26-.841a.73.73 0 0 1 .671-.44Zm14.341 1.57a.88.88 0 0 0-.655.242l-5.696 6.158 1.694 1.832 5.309-6.514c.325-.433.479-.66.325-1.029a1.12 1.12 0 0 0-.977-.689zm-7.655 12.282 1.318 1.414-5.786 6.13a.65.65 0 0 1-.496.26.75.75 0 0 1-.706-.467c-.112-.269.036-.687.244-.909l.005-.005.005-.006z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.footer", "navigation.top", "toc.follow", "toc.integrate", "search.suggest", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../javascript/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

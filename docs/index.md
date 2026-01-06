@@ -32,7 +32,7 @@ TinyMPC is an open-source solver tailored for convex model-predictive control th
 
 ## Robot demonstrations
 
-TinyMPC contributes to bridging the gap between computationally intensive convex model-predictive control and resource-constrained processing platforms. Integrating TinyMPC into computationally underpowered robots enables them to execute agile maneuvers and exhibit safe behavior.
+TinyMPC contributes to bridging the gap between computationally intensive convex model-predictive control and resource-constrained processing platforms. Integrating TinyMPC into computationally underpowered robots enables them to execute agile maneuvers and exhibit safe behavior. TinyMPC-Crazyflie firmware is available at [RExLab](https://github.com/RoboticExplorationLab/tinympc-crazyflie-firmware) and [A²R Lab](https://github.com/A2R-Lab/tinympc-crazyflie).
 
 ### Dynamic obstacle avoidance
 
@@ -62,7 +62,7 @@ We compared against the same stock controllers for an infeasible fast figure-8 t
 
 ## Microcontroller benchmarks
 
-TinyMPC outperforms state-of-the-art solvers in terms of speed and memory footprint on microcontroller benchmarks. 
+TinyMPC outperforms state-of-the-art solvers in terms of speed and memory footprint on microcontroller benchmarks. Numerical benchmarks on MCUs are available at [RExLab](https://github.com/RoboticExplorationLab/mcu-solver-benchmarks).
 
 <figure markdown="span">
     ![ICRA24 MCU benchmarks](media/icra_bench.png){ width=60% align=right }

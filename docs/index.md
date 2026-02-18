@@ -22,10 +22,10 @@ TinyMPC is an open-source solver tailored for convex model-predictive control th
 
 
 <p align="center" markdown>
-    [TinyMPC (ICRA'24) :simple-arxiv:](https://arxiv.org/abs/2310.16985){:target="_blank" .md-button}
-    [Adaptive-TinyMPC (IROS'25) :simple-arxiv:](https://arxiv.org/abs/2507.03231){:target="_blank" .md-button}
-    [Conic-TinyMPC (ICRA'26) :simple-arxiv:](https://arxiv.org/abs/2403.18149){:target="_blank" .md-button}
-    [Presentation (CMU'24) :fontawesome-brands-youtube:](https://www.youtube.com/watch?v=U-GZn8gsjHo){:target="_blank" .md-button}
+    [TinyMPC (ICRA '24) :simple-arxiv:](https://arxiv.org/abs/2310.16985){:target="_blank" .md-button}
+    [Adaptive (IROS '25) :simple-arxiv:](https://arxiv.org/abs/2507.03231){:target="_blank" .md-button}
+    [Conic (ICRA '26) :simple-arxiv:](https://arxiv.org/abs/2403.18149){:target="_blank" .md-button}
+    [Talk (CMU '24) :fontawesome-brands-youtube:](https://www.youtube.com/watch?v=U-GZn8gsjHo){:target="_blank" .md-button}
 </p>
 
 ---

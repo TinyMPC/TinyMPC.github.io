@@ -103,7 +103,7 @@ TinyMPC outperforms state-of-the-art solvers in terms of speed and memory footpr
 <div style="display: flex;">
     <div style="flex: 1;">
         <p align="center">
-            <a href="https://xkhainguyen.github.io/" target="_blank"><img style="border-radius: 0%;" width="60%" src="media/contributors/khai_nguyen.jpg" /></a>
+            <a href="https://xkhainguyen.github.io/" target="_blank"><img style="border-radius: 0%;" width="60%" src="media/contributors/khai_nguyen.png" /></a>
         </p>
         <h4 align="center">
             Khai Nguyen

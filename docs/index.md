@@ -21,12 +21,13 @@ TinyMPC is an open-source solver tailored for convex model-predictive control th
     🏆 TinyMPC won the Best Paper Award in Automation and was a finalist for Best Conference Paper Award and Best Student Paper Award at [IEEE ICRA 2024](https://2024.ieee-icra.org/awards-and-finalists/)! Thank you to everyone who has used TinyMPC and provided feedback!
 
 
-<p align="center" markdown>
-    [TinyMPC (ICRA '24) :simple-arxiv:](https://arxiv.org/abs/2310.16985){:target="_blank" .md-button}
-    [Adaptive (IROS '25) :simple-arxiv:](https://arxiv.org/abs/2507.03231){:target="_blank" .md-button}
-    [Conic (ICRA '26) :simple-arxiv:](https://arxiv.org/abs/2403.18149){:target="_blank" .md-button}
-    [Talk (CMU '24) :fontawesome-brands-youtube:](https://www.youtube.com/watch?v=U-GZn8gsjHo){:target="_blank" .md-button}
-</p>
+<div style="text-align:center;" markdown>
+[TinyMPC (ICRA '24) :simple-arxiv:](https://arxiv.org/abs/2310.16985){:target="_blank" .md-button style="white-space:nowrap; margin:.25rem;"}
+[Adaptive (IROS '25) :simple-arxiv:](https://arxiv.org/abs/2507.03231){:target="_blank" .md-button style="white-space:nowrap; margin:.25rem;"}
+[Conic (ICRA '26) :simple-arxiv:](https://arxiv.org/abs/2403.18149){:target="_blank" .md-button style="white-space:nowrap; margin:.25rem;"}
+[TinySDP (RSS '26) :material-web:](https://a2r-lab.org/TinySDP/){:target="_blank" .md-button style="white-space:nowrap; margin:.25rem;"}
+[Talk (CMU '24) :fontawesome-brands-youtube:](https://www.youtube.com/watch?v=U-GZn8gsjHo){:target="_blank" .md-button style="white-space:nowrap; margin:.25rem;"}
+</div>
 
 ---
 
@@ -200,6 +201,14 @@ TinyMPC outperforms state-of-the-art solvers in terms of speed and memory footpr
       title={Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC}, 
       author={Ishaan Mahajan and Khai Nguyen and Sam Schoedel and Elakhya Nedumaran and Moises Mata and Brian Plancher and Zachary Manchester},
       booktitle={IEEE International Conference on Robotics and Automation (ICRA)},
+      year={2026},
+}
+```
+```latex
+@inproceedings{tinysdp,
+      title={TinySDP: Real Time Semidefinite Optimization for Certifiable and Agile Edge Robotics}, 
+      author={Ishaan Mahajan and Jon Arrizabalaga and Andrea Grillo and Fausto Vega and James Anderson and Zachary Manchester and Brian Plancher},
+      booktitle={Robotics: Science and Systems (RSS)},
       year={2026},
 }
 ```

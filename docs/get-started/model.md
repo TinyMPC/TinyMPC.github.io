@@ -30,6 +30,8 @@ Let's write those down in a dynamics function
 === "Python"
 
     ```py
+    import autograd.numpy as np
+    
     mc = 0.2 # mass of the cart (kg)
     mp = 0.1 # mass of the pole (kg)
     ℓ = 0.5 # distance to the center of mass (meters)
@@ -116,8 +118,8 @@ Our integrator takes in the state and control at the current time step and integ
 
     dt = 0.01
 
-    A = AG.jacobian(lambda x_: cartpole_rk4(x_, ugoal))(xgoal)
-    B = AG.jacobian(lambda u_: cartpole_rk4(xgoal, u_))(ugoal)
+    A = AG.jacobian(lambda x_: cartpole_rk4(x_, ugoal, dt))(xgoal)
+    B = AG.jacobian(lambda u_: cartpole_rk4(xgoal, u_, dt))(ugoal)
     ```
 
 === "Julia"
